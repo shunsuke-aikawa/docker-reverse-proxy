@@ -1,0 +1,25 @@
+# ./docker-compose.yml
+version: '2'
+services:
+  nginx:
+    build: ./nginx
+    container_name: chochin1-nginx
+    depends_on:
+      - php
+    volumes:
+      - ./ac2/public:/var/ac2/public
+    environment:
+      VIRTUAL_HOST: chochin.1.admin.appcapsule.com
+      LETSENCRYPT_HOST: chochin.1.admin.appcapsule.com
+      LETSENCRYPT_EMAIL: your.real@email.com
+    restart: always
+  php:
+    build: ./php
+    container_name: chochin1
+    volumes:
+      - ./ac2:/var/ac2
+    restart: always
+networks:
+  default:
+    external:
+      name: nginxproxy_default
